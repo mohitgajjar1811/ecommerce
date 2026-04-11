@@ -1,316 +1,239 @@
-{{-- {{dd($data)}} --}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Order</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --success: #10b981;
+      --info: #3b82f6;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --dark: #0f172a;
+      --light: #f8fafc;
+      --white: #ffffff;
+      --sidebar-bg: #0f172a;
+    }
 
-{{-- <style>
-
-    body{
-        margin:0%;
-        font-family:Arial;
-    }
-    
-    /* Sidebar */
-    .sidebar{
-        width:220px;
-        height:100vh;
-        background:#2c3e50;
-        color:white;
-        position:fixed;
-        padding:20px;
-    }
-    
-    .sidebar h2{
-        text-align:center;
-        margin-bottom:30px;
-    }
-    
-    .sidebar a{
-        display:block;
-        color:white;
-        text-decoration:none;
-        padding:10px;
-        margin:10px 0;
-        background:#34495e;
-        border-radius:5px;
-    }
-    
-    .sidebar a:hover{
-        background:#1abc9c;
-    }
-    
-    /* Main Content */
-    .main{
-        margin-left:240px;
-        padding:20px;
-    }
-    
-    </style>
-    
-    
-    <div class="sidebar">
-    
-        <h2>Student Panel</h2>
-    
-        <a href="#">Dashboard</a>
-        <a href="{{route('student')}}">Student Data</a>
-        <a href="{{route('student.add')}}">Add Student</a>
-    
-    </div> --}}
-    
-{{-- <form action={{route('student.create')}} method="POST">
-    @csrf
-    <label for="">First_name</label>
-    <input type="text" value="" name="first_name">
-    <br>
-    <label for="">Class_id</label>
-    <input type="number" value="" name="class_id">
-    <br>
-    <label for="">Email_id</label>
-    <input type="email" value="" name="email_id">
-    <br>
-    <label for="">Course_id</label>
-    <input type="number" value="" name="course_id">
-    <br>
-    <input type="submit" value="Save">
-</form> --}}
-
-
-<style>
-  
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      text-decoration:none;
-    }
-    
-    body{
-      margin:0;
-      font-family:Arial;
-    }
-    
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
       font-family: 'Poppins', sans-serif;
+      text-decoration: none;
     }
-    
-    /* BODY */
-    body{
-      background: linear-gradient(135deg,#eef2ff,#f8fafc);
+
+    body {
+      background: #f1f5f9;
+      color: #334155;
+      min-height: 100vh;
     }
-    
+
     /* SIDEBAR */
-.sidebar{
-  width:250px;
-  height:100vh;
-  background:rgba(15,23,42,0.95);
-  backdrop-filter: blur(10px);
-  color:white;
-  position:fixed;
-  padding:20px;
-}
+    .sidebar {
+      width: 260px;
+      height: 100vh;
+      background: var(--sidebar-bg);
+      color: white;
+      position: fixed;
+      padding: 24px 16px;
+      z-index: 1000;
+    }
 
-.sidebar h2{
-  text-align:center;
-  margin-bottom:30px;
-  letter-spacing:1px;
-}
+    .sidebar h2 {
+      font-size: 20px;
+      margin-bottom: 40px;
+      text-align: center;
+      color: #f8fafc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
 
-.sidebar a{
-  display:block;
-  padding:12px;
-  margin:10px 0;
-  border-radius:10px;
-  color:white;
-  transition:0.3s;
-}
+    .sidebar a {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      margin: 8px 0;
+      border-radius: 12px;
+      color: #94a3b8;
+      font-weight: 500;
+      transition: 0.3s;
+      gap: 12px;
+    }
 
-.sidebar a:hover{
-  background:linear-gradient(45deg,#6366f1,#22c55e);
-  transform:translateX(5px);
-}
-    
-    /* NAVBAR */
-    .navbar{
-      margin-left:250px;
-      height:70px;
-      background:white;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:0 30px;
-      box-shadow:0 2px 8px rgba(0,0,0,0.1);
+    .sidebar a:hover {
+      color: white;
+      background: rgba(255, 255, 255, 0.05);
     }
-    
-    /* SEARCH */
-    .search-box input{
-      padding:8px 15px;
-      border-radius:20px;
-      border:1px solid #ccc;
-      outline:none;
+
+    .sidebar a.active {
+      color: white;
+      background: var(--success);
     }
-    
-    /* MAIN */
-    .main{
-      margin-left:250px;
-      padding:30px;
+
+    /* MAIN CONTENT */
+    .main {
+      margin-left: 260px;
+      padding: 40px;
     }
-    
-    /* CARD */
-    .card{
-      background:rgba(255,255,255,0.7);
-      backdrop-filter:blur(10px);
-      padding:25px;
-      border-radius:15px;
-      box-shadow:0 8px 25px rgba(0,0,0,0.1);
-    }
-    
+
     /* HEADER */
-    .card-header{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-bottom:20px;
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      background: white;
+      padding: 20px 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
-    
-    .card-header h2{
-      color:#0f172a;
-    }
-    
-    /* ADD BUTTON */
-    .add-btn{
-      padding:10px 18px;
-      background:linear-gradient(45deg,#3b82f6,#6366f1);
-      color:white;
-      border-radius:20px;
-      text-decoration:none;
-      font-size:14px;
-    }
-    
-    .add-btn:hover{
-      opacity:0.85;
-    }
-    
-    /* TABLE */
-    table{
-      width:100%;
-      border-collapse:collapse;
-    }
-    
-    th{
-      background:#6366f1;
-      color:white;
-      padding:12px;
-    }
-    
-    td{
-      padding:12px;
-      text-align:center;
-    }
-    
-    /* ZEBRA STRIPES */
-    tr:nth-child(even){
-      background:#f1f5f9;
-    }
-    
-    /* HOVER */
-    tr:hover{
-      background:#e0e7ff;
-      transition:0.3s;
-    }
-    
-    /* ACTION BUTTONS */
-    .btn{
-      padding:6px 12px;
-      border-radius:6px;
-      color:white;
-      text-decoration:none;
-      font-size:13px;
-    }
-    
-    .edit{
-      background:#10b981;
-    }
-    
-    .delete{
-      background:#ef4444;
-    }
-    
-    .btn:hover{
-      transform:scale(1.05);
-      transition:0.2s;
-    }
-    
-    /* Main Content */
-    .main{
-      margin-left:-500px;
-      padding:20px;
-    }
-    
-    /* Form Design */
-    .form-box{
-      width:400px;
-      margin:auto;
-      margin-top:1%;
-      background:#b8bdf4;
-      padding:20px;
-      border:2px solid black;
-      border-radius:10px;
-    }
-    
-    .form-box label{
-      display:block;
-      margin-top:10px;
-    }
-    
-    .form-box input{
-      width:100%;
-      padding:8px;
-      margin-top:5px;
-    }
-    
-    .form-box input[type="submit"]{
-      margin-top:15px;
-      background:rgb(0, 45, 128);
-      color:white;
-      border:none;
-      cursor:pointer;
-    }
-    </style>
-    
-    
-    @include('sidebar')
-    
-    
-    <div class="main">
-    
-        <h1 align="center">Add Order</h1>
-    
-        <div class="form-box">
-    
-            <form action={{route('order.create')}} method="POST">
-             @csrf
-                   
 
-                    <label for="">User Name</label>
-                    <select style="width:100%;padding:5px;" name="user_id" id="">
-                      @foreach($users as $user1)
-                          <option value="{{$user1->id}}" >{{$user1->name}}</option>
-                      @endforeach
-                   </select>
-                    <br>
+    .navbar h3 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--dark);
+    }
 
+    /* CARD */
+    .card {
+      background: var(--white);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+      max-width: 600px;
+      margin: 0 auto;
+    }
 
-                    <label>Status</label>
-                    <input type="text" value="" name="status">
-                    <br>
+    .card-header {
+      margin-bottom: 30px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 15px;
+    }
 
-                    <label>total_amount</label>
-                    <input type="text" value="" name="total_amount">
+    .card-header h2 {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--dark);
+    }
 
-                    <input type="submit" value="Save">
-            </form> 
-    
-        </div>
-    
+    /* FORM STYLES */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--dark);
+      font-size: 14px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.3s;
+      background: #f8fafc;
+      color: #334155;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+      background: white;
+    }
+
+    /* BUTTON */
+    .btn-submit {
+      background: var(--success);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .btn-submit:hover {
+      background: #059669;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 70px;
+      }
+      .main {
+        margin-left: 70px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  @include('sidebar')
+
+  <div class="main">
+    <div class="navbar">
+      <h3>Add New Order</h3>
+      <div class="user-profile"><i class="fas fa-user-circle fa-2x"></i></div>
     </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2><i class="fas fa-shopping-cart" style="color: var(--success); margin-right: 8px;"></i> Create Order</h2>
+      </div>
+
+      <form action="{{route('order.create')}}" method="POST">
+        @csrf
+
+        <div class="form-group">
+          <label>Customer Name</label>
+          <select name="user_id" class="form-control" required>
+            @foreach($users as $user)
+              <option value="{{$user->id}}">{{$user->name}}</option>
+            @endforeach
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Order Status</label>
+          <input type="text" name="status" class="form-control" placeholder="e.g., Pending, Processing, Completed" required>
+        </div>
+
+        <div class="form-group">
+          <label>Total Amount (₹)</label>
+          <input type="number" name="total_amount" class="form-control" placeholder="0.00" step="0.01" required>
+        </div>
+
+        <button type="submit" class="btn-submit">
+          <i class="fas fa-save"></i> Save Order
+        </button>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>

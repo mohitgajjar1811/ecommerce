@@ -1,116 +1,235 @@
-{{-- {{dd($data)}} --}}
-<style>
-    <style>
-body{
-  font-family: Arial, sans-serif;
-  background:#f4f6f8;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add User</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --success: #10b981;
+      --info: #3b82f6;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --dark: #0f172a;
+      --light: #f8fafc;
+      --white: #ffffff;
+      --sidebar-bg: #0f172a;
+    }
 
-/* CENTER BOX */
-.container{
-  width:100%;
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+      text-decoration: none;
+    }
 
-/* FORM CARD */
-.form-box{
-  width:350px;
-  background:white;
-  padding:25px;
-  border-radius:8px;
-  border:1px solid #ddd;
-}
+    body {
+      background: #f1f5f9;
+      color: #334155;
+      min-height: 100vh;
+    }
 
-/* TITLE */
-.form-box h2{
-  text-align:center;
-  margin-bottom:20px;
-}
+    /* SIDEBAR */
+    .sidebar {
+      width: 260px;
+      height: 100vh;
+      background: var(--sidebar-bg);
+      color: white;
+      position: fixed;
+      padding: 24px 16px;
+      z-index: 1000;
+    }
 
-/* INPUT GROUP */
-.form-group{
-  margin-bottom:15px;
-}
+    .sidebar h2 {
+      font-size: 20px;
+      margin-bottom: 40px;
+      text-align: center;
+      color: #f8fafc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
 
-.form-group label{
-  display:block;
-  margin-bottom:5px;
-  font-size:14px;
-}
+    .sidebar a {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      margin: 8px 0;
+      border-radius: 12px;
+      color: #94a3b8;
+      font-weight: 500;
+      transition: 0.3s;
+      gap: 12px;
+    }
 
-/* INPUT */
-.form-group input{
-  width:100%;
-  padding:10px;
-  border:1px solid #ccc;
-  border-radius:5px;
-  outline:none;
-}
+    .sidebar a:hover {
+      color: white;
+      background: rgba(255, 255, 255, 0.05);
+    }
 
-/* FOCUS */
-.form-group input:focus{
-  border-color:#2563eb;
-}
+    .sidebar a.active {
+      color: white;
+      background: var(--success);
+    }
 
-/* BUTTON */
-.btn{
-  width:100%;
-  padding:10px;
-  background:#2563eb;
-  color:white;
-  border:none;
-  border-radius:5px;
-  cursor:pointer;
-}
+    /* MAIN CONTENT */
+    .main {
+      margin-left: 260px;
+      padding: 40px;
+    }
 
-.btn:hover{
-  background:#1d4ed8;
-}
-</style>
+    /* HEADER */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      background: white;
+      padding: 20px 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
 
-<div class="container">
+    .navbar h3 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--dark);
+    }
 
-  <div class="form-box">
-    <h2>Create User</h2>
+    /* CARD */
+    .card {
+      background: var(--white);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+      max-width: 600px;
+      margin: 0 auto;
+    }
 
-    <form action="{{route('user.create')}}" method="POST">
-      @csrf
+    .card-header {
+      margin-bottom: 30px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 15px;
+    }
 
-      <div class="form-group">
-        <label>Name</label>
-        <input type="text" name="name" placeholder="Enter name">
+    .card-header h2 {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    /* FORM STYLES */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--dark);
+      font-size: 14px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.3s;
+      background: #f8fafc;
+      color: #334155;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+      background: white;
+    }
+
+    /* BUTTON */
+    .btn-submit {
+      background: var(--success);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .btn-submit:hover {
+      background: #059669;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 70px;
+      }
+      .main {
+        margin-left: 70px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  @include('sidebar')
+
+  <div class="main">
+    <div class="navbar">
+      <h3>User Management</h3>
+      <div class="user-profile"><i class="fas fa-user-circle fa-2x"></i></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2><i class="fas fa-user-plus" style="color: var(--success); margin-right: 8px;"></i> Register New User</h2>
       </div>
 
-      {{-- <div class="form-group">
-        <label>Email</label>
-        <input type="email" name="email" placeholder="Enter email">
-      </div>
+      <form action="{{route('user.create')}}" method="POST">
+        @csrf
 
-      <div class="form-group">
-        <label>Password</label>
-        <input type="password" name="password" placeholder="Enter password">
-      </div> --}}
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" name="name" class="form-control" placeholder="Enter full name" required>
+        </div>
 
-      <button class="btn">Save</button>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" name="email" class="form-control" placeholder="user@example.com" required>
+        </div>
 
-    </form>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" name="password" class="form-control" placeholder="Create a strong password" required>
+        </div>
+
+        <button type="submit" class="btn-submit">
+          <i class="fas fa-user-check"></i> Save User
+        </button>
+      </form>
+    </div>
   </div>
 
-</div>
-</style>
-<form action={{route('user.create')}} method="POST">
-    @csrf
-    <label for="">Name</label>
-    <input type="text" value="" name="name">
-    <br>
-    <label for="">Email</label>
-    <input type="email" value="" name="email">
-    <br>
-    <label for="">Password</label>
-    <input type="password" value="" name="password">
-    <br>
-    <input type="submit" value="Save">
-</form>
+</body>
+</html>
