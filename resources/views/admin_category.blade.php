@@ -1,262 +1,396 @@
-<style>
-  /* GLOBAL */
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Poppins', sans-serif;
-}
+<!DOCTYPE html>
+<html lang="en">
 
-body{
-  background: linear-gradient(135deg,#dbeafe,#f0fdf4);
-}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Category Management</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --success: #10b981;
+      --info: #3b82f6;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --dark: #0f172a;
+      --light: #f8fafc;
+      --white: #ffffff;
+      --sidebar-bg: #0f172a;
+    }
 
-/* SIDEBAR */
-.sidebar{
-  width:250px;
-  height:100vh;
-  background:rgba(15,23,42,0.95);
-  backdrop-filter: blur(10px);
-  color:white;
-  position:fixed;
-  padding:20px;
-}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+      text-decoration: none;
+    }
 
-.sidebar h2{
-  text-align:center;
-  margin-bottom:30px;
-  letter-spacing:1px;
-}
+    body {
+      background: #f1f5f9;
+      color: #334155;
+      min-height: 100vh;
+    }
 
-.sidebar a{
-  display:block;
-  padding:12px;
-  margin:10px 0;
-  border-radius:10px;
-  color:white;
-  transition:0.3s;
-}
+    /* SIDEBAR */
+    .sidebar {
+      width: 260px;
+      height: 100vh;
+      background: var(--sidebar-bg);
+      color: white;
+      position: fixed;
+      padding: 24px 16px;
+      z-index: 1000;
+    }
 
-.sidebar a:hover{
-  background:linear-gradient(45deg,#6366f1,#22c55e);
-  transform:translateX(5px);
-}
+    .sidebar h2 {
+      font-size: 20px;
+      margin-bottom: 40px;
+      text-align: center;
+      color: #f8fafc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
 
-/* NAVBAR */
-.navbar{
-  margin-left:250px;
-  height:70px;
-  background:rgba(255,255,255,0.7);
-  backdrop-filter: blur(12px);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 30px;
-  box-shadow:0 5px 20px rgba(0,0,0,0.05);
-}
+    .sidebar a {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      margin: 8px 0;
+      border-radius: 12px;
+      color: #94a3b8;
+      font-weight: 500;
+      transition: 0.3s;
+      gap: 12px;
+    }
 
-.navbar h3{
-  font-weight:600;
-  color:#111827;
-}
+    .sidebar a:hover {
+      color: white;
+      background: rgba(255, 255, 255, 0.05);
+    }
 
-/* MAIN */
-.main{
-  margin-left:250px;
-  padding:30px;
-}
+    .sidebar a.active {
+      color: white;
+      background: var(--success);
+    }
 
-/* CARD */
-.card{
-  background:rgba(255,255,255,0.7);
-  backdrop-filter: blur(12px);
-  padding:25px;
-  border-radius:20px;
-  box-shadow:0 15px 40px rgba(0,0,0,0.08);
-  border:1px solid rgba(255,255,255,0.3);
-}
+    /* MAIN CONTENT */
+    .main {
+      margin-left: 260px;
+      padding: 40px;
+    }
 
-/* HEADER */
-.card-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:20px;
-}
+    /* HEADER */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      background: white;
+      padding: 20px 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
 
-.card-header h2{
-  font-weight:600;
-}
+    .navbar h3 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--dark);
+    }
 
-/* ADD BUTTON */
-.add-btn{
-  padding:10px 20px;
-  background:linear-gradient(45deg,#6366f1,#22c55e);
-  color:white;
-  border-radius:30px;
-  font-size:14px;
-  transition:0.3s;
-}
+    /* CARD */
+    .card {
+      background: var(--white);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    }
 
-.add-btn:hover{
-  transform:scale(1.05);
-  box-shadow:0 10px 25px rgba(99,102,241,0.4);
-}
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
 
-/* TABLE */
-.table-wrapper{
-  overflow-x:auto;
-}
+    .card-header h2 {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--dark);
+    }
 
-table{
-  width:100%;
-  border-collapse:collapse;
-}
+    /* SEARCH FORM */
+    .search-form {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #f8fafc;
+      padding: 6px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+    }
 
-/* HEADER */
-th{
-  background:linear-gradient(45deg,#6366f1,#22c55e);
-  color:white;
-  padding:14px;
-  font-size:14px;
-}
+    .search-form input {
+      border: none;
+      background: transparent;
+      padding: 8px 12px;
+      outline: none;
+      font-size: 14px;
+      width: 250px;
+    }
 
-/* DATA */
-td{
-  padding:14px;
-  text-align:center;
-  font-size:14px;
-  color:#374151;
-}
+    .btn-search {
+      background: var(--dark);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: 0.3s;
+    }
 
-/* ROW */
-tr{
-  transition:0.3s;
-}
+    .add-btn {
+      background: var(--success);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: 0.3s;
+    }
 
-tr:nth-child(even){
-  background:#f9fafb;
-}
+    /* TABLE */
+    .table-wrapper {
+      overflow-x: auto;
+    }
 
-tr:hover{
-  background:rgba(99,102,241,0.1);
-  transform:scale(1.01);
-}
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
 
-/* BUTTONS */
-.btn{
-  padding:7px 14px;
-  border-radius:20px;
-  font-size:13px;
-  margin:2px;
-  display:inline-block;
-  transition:0.3s;
-  color:black;
-}
+    th {
+      text-align: left;
+      padding: 16px;
+      color: #64748b;
+      font-weight: 600;
+      font-size: 13px;
+      text-transform: uppercase;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+    }
 
-.edit{
-  background:linear-gradient(45deg,#10b981,#34d399);
-}
+    td {
+      padding: 16px;
+      background: #ffffff;
+      font-size: 14px;
+      border: 1px solid #e2e8f0;
+    }
 
-.delete{
-  background:linear-gradient(45deg,#ef4444,#f87171);
-}
+    tr:hover td {
+      background: #f1f5f9;
+    }
 
-.btn:hover{
-  transform:scale(1.1);
-}
+    /* ACTIONS */
+    .actions {
+      display: flex;
+      gap: 8px;
+    }
 
-/* PAGINATION */
-.pagination{
-  display:flex;
-  justify-content:center;
-  margin-top:20px;
-  gap:8px;
-}
+    .action-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.3s;
+    }
 
-.pagination li{
-  list-style:none;
-}
+    .edit-btn {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+    }
 
-.pagination li a,
-.pagination li span{
-  padding:8px 14px;
-  border-radius:10px;
-  background:white;
-  border:1px solid #ddd;
-  transition:0.3s;
-}
+    .edit-btn:hover {
+      background: var(--success);
+      color: white;
+    }
 
-.pagination li.active span{
-  background:linear-gradient(45deg,#6366f1,#22c55e);
-  color:white;
-  border:none;
-}
+    .delete-btn {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+    }
 
-.pagination li a:hover{
-  background:#6366f1;
-  color:white;
-}
-    </style>
-    
-    @include('sidebar')
-    
-    <!-- NAVBAR -->
+    .delete-btn:hover {
+      background: var(--danger);
+      color: white;
+    }
+
+    /* PAGINATION */
+    .pagination-container {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .pagination {
+      display: flex;
+      gap: 8px;
+      list-style: none;
+      padding: 0;
+    }
+
+    .page-link {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      color: #64748b;
+      font-weight: 600;
+      transition: 0.3s;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .page-item.active .page-link {
+      background: var(--success);
+      color: white;
+      border-color: var(--success);
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 70px;
+      }
+
+      .sidebar h2 span,
+      .sidebar a span {
+        display: none;
+      }
+
+      .main {
+        margin-left: 70px;
+      }
+
+      .search-form input {
+        width: 100%;
+      }
+    }
+
+    /* ALERTS */
+    .alert {
+      padding: 16px 20px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 500;
+      animation: slideIn 0.3s ease-out;
+    }
+
+    .alert-success {
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #10b981;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(-10px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  @include('sidebar')
+
+  <div class="main">
     <div class="navbar">
       <h3>Category Dashboard</h3>
+      <div class="user-profile"><i class="fas fa-user-circle fa-2x"></i></div>
     </div>
-    
-    <div class="main">
-      <div class="card">
-    
-        <div class="card-header">
-          <h2>Category Data</h2>
-          <span>
-            <form method="GET" action="{{ route('admin.category') }}" style="display: inline-flex; align-items: center; gap: 10px;">
-                <input 
-                    type="search" 
-                    name="search" 
-                    value="{{ request('search') }}" 
-                    placeholder="Search category..."
-                >
-                
-                @if(request('search'))
-                    <a href="{{ route('admin.category') }}" class="btn btn-secondary btn-sm">Clear</a>
-                @endif
-                
-                <button type="submit" class="btn btn-primary btn-sm">Search</button>
-            </form>
-              <a href="{{ route('category.add') }}" class="add-btn">+ Add Category</a>
-          </span>
+
+    @if(session('success'))
+      <div class="alert alert-success">
+        <i class="fas fa-check-circle"></i> {{ session('success') }}
       </div>
-    
-        <div class="table-wrapper">
-          <table id="categoryTable">
+    @endif
+
+    <div class="card">
+      <div class="card-header">
+        <h2>Category Data</h2>
+        <form method="GET" action="{{ route('admin.category') }}" class="search-form">
+          <i class="fas fa-search" style="margin-left:10px; color:#94a3b8"></i>
+          <input type="search" name="search" value="{{ request('search') }}" placeholder="Search categories...">
+          <button type="submit" class="btn-search">Search</button>
+          @if(request('search'))
+            <a href="{{ route('admin.category') }}"
+              style="font-size:12px; color:var(--danger); margin-right:10px">Clear</a>
+          @endif
+        </form>
+        <a href="{{ route('category.add') }}" class="add-btn"><i class="fas fa-plus"></i> Add Category</a>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
             <tr>
-              <th>Category Name</th>					
+              <th>Category Name</th>
               <th>Description</th>
-              <th>Action</th>
+              <th style="width: 100px;">Actions</th>
             </tr>
-    
+          </thead>
+          <tbody>
             @foreach ($category as $data)
-            {{-- {{dd($data)}} --}}
-            <tr>
-              <td>{{$data->name}}</td>
-              <td>{{$data->description}}</td>
-              <td>
-                <a class="btn edit" href="{{route('category.edit',$data->id)}}">Edit</a>
-                <a class="btn delete" href="{{route('category.delete',$data->id)}}">Delete</a>
-              </td>
-            </tr>
+              <tr>
+                <td style="font-weight:600">{{$data->name}}</td>
+                <td style="color:#64748b">{{$data->description}}</td>
+                <td>
+                  <div class="actions">
+                    <a class="action-btn edit-btn" href="{{route('category.edit', $data->id)}}"><i
+                        class="fas fa-edit"></i></a>
+                    <a class="action-btn delete-btn" href="{{route('category.delete', $data->id)}}"
+                      onclick="return confirm('Delete this category?')"><i class="fas fa-trash-alt"></i></a>
+                  </div>
+                </td>
+              </tr>
             @endforeach
-    
-          </table>
-        </div>
-    
-        <!-- PAGINATION -->
-        <div class="pagination">
-          {{ $category->links('pagination::bootstrap-4') }}
-        </div>
-    
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pagination-container">
+        {{ $category->links('pagination::bootstrap-4') }}
       </div>
     </div>
+  </div>
+
+</body>
+
+</html>

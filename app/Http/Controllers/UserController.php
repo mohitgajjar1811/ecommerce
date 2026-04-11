@@ -27,25 +27,27 @@ class UserController extends Controller
         // $users = DB::table('users')->get(); // all data get from table
         $search = $request->search;
 
-        if($search == null){
-        $users = User::paginate(5);
-        }else{
+        if ($search == null) {
+            $users = User::paginate(5);
+        } else {
             $users = User::where(function ($query) use ($search) {
                 $query->where('name', 'like', "%$search%");
             })
-            ->paginate(5);
+                ->paginate(5);
         }
         // dd(DB::getQueryLog());
         // dd($users);
-        return view('admin.users',['users'=>$users]);
+        return view('admin.users', ['users' => $users]);
     }
 
-    public function showForm(){
+    public function showForm()
+    {
         return view('admin.adduser');
     }
 
 
-    public function create(Request $request){
+    public function create(Request $request)
+    {
         // dd($request);
         User::create([
             'name' => $request->name,
@@ -57,31 +59,33 @@ class UserController extends Controller
     }
 
     public function editUser(string $id)
-    {   
-      
-        $users = User::where('id',$id)->first();
-        
-        return view('admin.editusers',['data'=>$users]);
+    {
+
+        $users = User::where('id', $id)->first();
+
+        return view('admin.editusers', ['data' => $users]);
     }
 
-    public function updateUser(Request $request){
+    public function updateUser(Request $request)
+    {
         // dd($request->id);
-     User::where('id', $request->id)
-        ->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'updated_at' => now()
-        ]);
-    //  dd($result);
-    return redirect()->route('user.show')->with('success', 'User updated successfully!');
+        User::where('id', $request->id)
+            ->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'updated_at' => now()
+            ]);
+        //  dd($result);
+        return redirect()->route('user.show')->with('success', 'User updated successfully!');
     }
 
 
-    public function deleteUser($id){
+    public function deleteUser($id)
+    {
         // dd($id);
-       User::where('id',$id)
-        ->delete();
-        return redirect()->route('user.show')->with('success', 'User Delete successfully!');
+        User::where('id', $id)
+            ->delete();
+        return redirect()->route('user.show')->with('success', 'User deleted successfully!');
     }
 }
 

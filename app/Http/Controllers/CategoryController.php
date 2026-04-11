@@ -11,19 +11,17 @@ class CategoryController extends Controller
     {
         $search = $request->search;
 
-        if($search == null)
-        {
+        if ($search == null) {
             $category = Category::paginate(3);
-        }else{
-            $category = Category::where(function ($query) use ($search)
-            {
+        } else {
+            $category = Category::where(function ($query) use ($search) {
                 $query->where('name', 'like', "%$search%")
                     ->orWhere('description', 'like', "%$search%");
             })
-            ->paginate(5);
+                ->paginate(5);
         }
-        
-        return view('admin_category',['category'=>$category]);
+
+        return view('admin_category', ['category' => $category]);
 
     }
 
@@ -34,7 +32,8 @@ class CategoryController extends Controller
         return view('addcategory', ['category' => $category]);
     }
 
-    public function create(Request $request){
+    public function create(Request $request)
+    {
         Category::create([
             'name' => $request->name,
             'description' => $request->description,
@@ -45,26 +44,28 @@ class CategoryController extends Controller
 
     public function editcategory(string $id)
     {
-        $category = Category::where('id',$id)->first();
+        $category = Category::where('id', $id)->first();
 
         return view('editcategory', ['data' => $category]);
     }
 
-    public function updatecategory(Request $request){
+    public function updatecategory(Request $request)
+    {
         // dd($request->id);
-     $category = Category::where('id', $request->id)
-        ->update([
-            'name' => $request->name,
-            'description' => $request->description,
-            'updated_at' => now()
-        ]);
-    return redirect()->route('admin.category')->with('success', 'User updated successfully!');
+        $category = Category::where('id', $request->id)
+            ->update([
+                'name' => $request->name,
+                'description' => $request->description,
+                'updated_at' => now()
+            ]);
+        return redirect()->route('admin.category')->with('success', 'User updated successfully!');
     }
 
-    public function deletecategory($id){
+    public function deletecategory($id)
+    {
         // dd($id);
-        $category = Category::where('id',$id)
-        ->delete();
-        return redirect()->route('admin.category')->with('success', 'User Delete successfully!');
+        $category = Category::where('id', $id)
+            ->delete();
+        return redirect()->route('admin.category')->with('success', 'Category deleted successfully!');
     }
 }
