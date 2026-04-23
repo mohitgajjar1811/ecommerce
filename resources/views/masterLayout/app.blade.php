@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <title>Ecommerce Template</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         .hero {
             background: url('https://via.placeholder.com/1600x600') center/cover no-repeat;
-            height: 500px;
             display: flex;
             align-items: center;
             color: white;
@@ -28,6 +27,7 @@
         .footer {
             background-color: #212529;
             color: white;
+        
         }
     </style>
     @stack('styles')
@@ -38,7 +38,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-        <a class="navbar-brand fw-bold" href="#">ShopZone</a>
+        <a class="navbar-brand fw-bold" href="/">ShopZone</a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
@@ -46,13 +46,22 @@
 
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+                <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="/products">Products</a></li>
                 <li class="nav-item"><a class="nav-link" href="#categories">Categories</a></li>
                 <li class="nav-item"><a class="nav-link" href="/blog">Blog</a></li>
                 <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                @php
+                    $cartCount = 0;
+                    $cart = \App\Models\Cart::where('session_id', session()->getId())
+                        ->orWhere('user_id', auth()->id())
+                        ->first();
+                    if($cart) {
+                        $cartCount = $cart->items()->sum('quantity');
+                    }
+                @endphp
                 <li class="nav-item">
-                    <a class="btn btn-warning ms-3" href="#">🛒 Cart (0)</a>
+                    <a class="btn btn-warning ms-3" href="/addtocart">🛒 Cart ({{ $cartCount }})</a>
                 </li>
             </ul>
         </div>
@@ -71,16 +80,16 @@
         </div>
     </div>
 </section>
-<div class="container">
+<div class="container-fluid">
     @hasSection('content')
         @yield('content')
     @else 
         <h1>No Content</h1>
     @endif
 </div>
-@section('button')
+{{-- @section('button')
     <button>This is Comman Button</button>
-@show 
+@show  --}}
 <!-- ================= FOOTER ================= -->
 <footer class="footer py-5">
     <div class="container">

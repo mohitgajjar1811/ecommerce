@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Cart_item extends Model
+class CartItem extends Model
 {
     /**
      * The table associated with the model.
@@ -20,4 +20,8 @@ class Cart_item extends Model
         'price',
         'total',
     ];
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
 }

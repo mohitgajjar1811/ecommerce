@@ -374,7 +374,7 @@
         <table>
           <thead>
             <tr>
-              <th style="width: 60px;">Avatar</th>
+              {{-- <th style="width: 60px;">Avatar</th> --}}
               <th>Name</th>
               <th>Actions</th>
             </tr>

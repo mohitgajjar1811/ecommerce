@@ -30,11 +30,11 @@
     })
 
 </script>
-@push('scripts')
+{{-- @push('scripts')
     <script>
         alert('This Is Blog Page');
     </script>
-@endpush
+@endpush --}}
 @push('styles')
 <style>
     button{

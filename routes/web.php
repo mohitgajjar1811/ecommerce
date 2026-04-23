@@ -15,6 +15,10 @@ use App\Http\Controllers\UnitController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\HomepageController;
+use App\Http\Controllers\ProductpageController;
+use App\Http\Controllers\CartpageController;
+
 
 
 
@@ -143,14 +147,15 @@ Route::get('/about',function(){
     return view('about');
 });
 
-Route::get('/',function(){
-    return view('home');
-});
+Route::get('/', [HomepageController::class, 'HomePage']);
+
+Route::get('/products', [ProductpageController::class, 'ProductPage']);
 
 
-Route::get('/products',function(){
-    return view('product');
-});
+
+// Route::get('/products',function(){
+//     return view('product');
+// });
 
 Route::get('/blog',function(){
     return view('blog');
@@ -179,14 +184,14 @@ Route::get('/exp', [ExpController1::class, 'exp']);
 
 Route::get('/simple', [simpleController::class, 'simple']);
 
-Route::controller(StudentController::class)->group(function () {
-    Route::get('/student','student')->name('student');
-    Route::get('/student/add','showForm')->name('student.add');
-    Route::POST('/student/create','create')->name('student.create');
-    Route::get('/student/{id}','editstudent')->name('student.edit');
-    Route::post('/student/update','updatestudent')->name('student.update');
-    Route::get('/student/delete/{id}','deletestudent')->name('student.delete');
-});
+// Route::controller(StudentController::class)->group(function () {
+//     Route::get('/student','student')->name('student');
+//     Route::get('/student/add','showForm')->name('student.add');
+//     Route::POST('/student/create','create')->name('student.create');
+//     Route::get('/student/{id}','editstudent')->name('student.edit');
+//     Route::post('/student/update','updatestudent')->name('student.update');
+//     Route::get('/student/delete/{id}','deletestudent')->name('student.delete');
+// });
 
 
 Route::controller(EmployeeController::class)->group(function () {
@@ -207,23 +212,23 @@ Route::controller(DepartmentController::class)->group(function () {
     Route::get('/department/delete/{id}','deletedepartment')->name('department.delete');
 });
 
-Route::controller(TeacherController::class)->group(function () {
-    Route::get('/teacher','teacher')->name('teacher');
-    Route::get('/teacher/add','showForm')->name('teacher.add');
-    Route::POST('/teacher/create','create')->name('teacher.create');
-    Route::get('/teacher/{id}','editteacher')->name('teacher.edit');
-    Route::post('/teacher/update','updateteacher')->name('teacher.update');
-    Route::get('/teacher/delete/{id}','deleteteacher')->name('teacher.delete');
-});
+// Route::controller(TeacherController::class)->group(function () {
+//     Route::get('/teacher','teacher')->name('teacher');
+//     Route::get('/teacher/add','showForm')->name('teacher.add');
+//     Route::POST('/teacher/create','create')->name('teacher.create');
+//     Route::get('/teacher/{id}','editteacher')->name('teacher.edit');
+//     Route::post('/teacher/update','updateteacher')->name('teacher.update');
+//     Route::get('/teacher/delete/{id}','deleteteacher')->name('teacher.delete');
+// });
 
-Route::controller(BookController::class)->group(function () {
-    Route::get('/book','book')->name('book');
-    Route::get('/book/add','showForm')->name('book.add');
-    Route::POST('/book/create','create')->name('book.create');
-    Route::get('/book/{id}','editbook')->name('book.edit');
-    Route::post('/book/update','updatebook')->name('book.update');
-    Route::get('/book/delete/{id}','deletebook')->name('book.delete');
-});
+// Route::controller(BookController::class)->group(function () {
+//     Route::get('/book','book')->name('book');
+//     Route::get('/book/add','showForm')->name('book.add');
+//     Route::POST('/book/create','create')->name('book.create');
+//     Route::get('/book/{id}','editbook')->name('book.edit');
+//     Route::post('/book/update','updatebook')->name('book.update');
+//     Route::get('/book/delete/{id}','deletebook')->name('book.delete');
+// });
 
 Route::controller(DashboardController::class)->group(function (){
     Route::get('/dashboard','show')->name('admin.dashboard');
@@ -266,6 +271,10 @@ Route::controller(OrderController::class)->group(function (){
 });
 
 Route::controller(CartController::class)->group(function (){
+    Route::GET('/addcart/{id}','addtocart')->name('addToCart');
+    Route::GET('/cart/increase/{id}', 'increaseQuantity')->name('cart.increase');
+    Route::GET('/cart/decrease/{id}', 'decreaseQuantity')->name('cart.decrease');
+    Route::GET('/cart/remove/{id}', 'removeFromCart')->name('cart.remove');
     Route::get('/cart','cart')->name('admin.cart');
     Route::get('/cart/add','showForm')->name('cart.add');
     Route::POST('/cart/create','create')->name('cart.create');
@@ -274,6 +283,9 @@ Route::controller(CartController::class)->group(function (){
     Route::get('/cart/delete/{id}','deletecart')->name('cart.delete');
 });
 
+Route::controller(CartpageController::class)->group(function (){
+    Route::GET('/addtocart','cartpage')->name('cartpage');
+});
 
 
 
