@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -27,12 +28,14 @@ class UserController extends Controller
         // $users = DB::table('users')->get(); // all data get from table
         $search = $request->search;
 
+
         if ($search == null) {
-            $users = User::paginate(5);
+            $users = User::whereIn('type', ['admin', 'employee'])->paginate(5);
         } else {
-            $users = User::where(function ($query) use ($search) {
-                $query->where('name', 'like', "%$search%");
-            })
+            $users = User::whereIn('type', ['admin', 'employee'])
+                ->where(function ($query) use ($search) {
+                    $query->where('name', 'like', "%$search%");
+                })
                 ->paginate(5);
         }
         // dd(DB::getQueryLog());
@@ -51,8 +54,11 @@ class UserController extends Controller
         // dd($request);
         User::create([
             'name' => $request->name,
-            // 'email' => $request->email,
-            // 'password' => Hash::make($request->email),
+            'phone_number' => $request->phone_number,
+            'address' => $request->address,
+            'type' => 'employee',
+            'email' => $request->email,
+            'password' => Hash::make($request->email),
             'created_at' => now()
         ]);
         return redirect()->route('user.show')->with('success', 'User Insert successfully!');
@@ -86,6 +92,82 @@ class UserController extends Controller
         User::where('id', $id)
             ->delete();
         return redirect()->route('user.show')->with('success', 'User deleted successfully!');
+    }
+
+    public function showProfile(Request $request)
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+        } else {
+            return redirect('/login')->with('error', 'Please login to access your profile');
+        }
+        return view('profile', ['data' => $user]);
+    }
+
+
+    public function editProfile(Request $request)
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+        } else {
+            return redirect('/login')->with('error', 'Please login to access your profile');
+        }
+        return view('editprofile', ['data' => $user]);
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $userId = Auth::id(); // Get the authenticated user's ID
+        // dd($userId);
+        User::where('id', $userId)
+            ->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone_number' => $request->phone_number,
+                'address' => $request->address,
+                'updated_at' => now()
+            ]);
+
+        return redirect()->route('profile')->with('success', 'Profile updated successfully!');
+    }
+
+    public function showChangePasswordForm(Request $request)
+    {
+        if (!Auth::check()) {
+            return redirect('/login')->with('error', 'Please login to access your profile');
+        }
+
+        return view('changepassword', [
+            'data' => Auth::user()
+        ]);
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|min:6',
+            'confirm_password' => 'required|same:new_password',
+        ]);
+
+        $user = Auth::user();
+        $userId = Auth::id();
+        // dd($request);
+        if (!$user) {
+            return redirect('/login')->with('error', 'Please login to access your profile');
+        }
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->with('error', 'Current password is incorrect');
+        }
+
+        User::where('id', $userId)
+        ->update([
+            'password' => Hash::make($request->new_password),
+            'updated_at' => now()
+        ]);
+
+        return redirect()->route('profile')->with('success', 'Password updated successfully!');
     }
 }
 

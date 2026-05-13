@@ -30,4 +30,8 @@
         <i class="fas fa-users"></i> <span>Users</span>
     </a>
 
+    <a href="{{route('customer.show')}}" class="{{ request()->routeIs('customer.show') ? 'active' : '' }}">
+        <i class="fas fa-users"></i> <span>Customer</span>
+    </a>
+
 </div>

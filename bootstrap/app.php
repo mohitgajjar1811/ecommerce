@@ -14,6 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web([
             \App\Http\Middleware\ValidateCsrfToken::class,
         ]);
+        $middleware->alias([
+            'admin.employee' => \App\Http\Middleware\AdminEmployeeMiddleware::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

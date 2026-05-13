@@ -274,7 +274,16 @@
         box-shadow: var(--shadow);
     }
 </style>
-
+<!-- ================= HERO ================= -->
+<section class="hero text-center">
+    <div class="hero-overlay">
+        <div class="container">
+            <h1 class="display-4 fw-bold">Big Sale is Live!</h1>
+            <p class="lead">Up to 50% off on selected products</p>
+            <a href="/products" class="btn btn-warning btn-lg">Shop Now</a>
+        </div>
+    </div>
+</section>
 <div class="products-container">
     <div class="header-section">
         <h2>Our Collection</h2>

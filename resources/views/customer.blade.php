@@ -346,7 +346,7 @@
 
   <div class="main">
     <div class="navbar">
-      <h3>User Dashboard</h3>
+      <h3>Customer Dashboard</h3>
       <div class="user-profile"><i class="fas fa-user-circle fa-2x"></i></div>
     </div>
 
@@ -359,15 +359,15 @@
     <div class="card">
       <div class="card-header">
         <h2>User Data</h2>
-        <form method="GET" action="{{ route('user.show') }}" class="search-form">
+        <form method="GET" action="{{ route('customer.show') }}" class="search-form">
           <i class="fas fa-search" style="margin-left:10px; color:#94a3b8"></i>
           <input type="search" name="search" value="{{ request('search') }}" placeholder="Search users...">
           <button type="submit" class="btn-search">Search</button>
           @if(request('search'))
-            <a href="{{ route('user.show') }}" style="font-size:12px; color:var(--danger); margin-right:10px">Clear</a>
+            <a href="{{ route('customer.show') }}" style="font-size:12px; color:var(--danger); margin-right:10px">Clear</a>
           @endif
         </form>
-        <a href="{{ route('user.addform') }}" class="add-btn"><i class="fas fa-plus"></i> Add User</a>
+        <a href="{{ route('customer.addform') }}" class="add-btn"><i class="fas fa-plus"></i> Add Customer</a>
       </div>
 
       <div class="table-wrapper">
@@ -390,9 +390,9 @@
                 <td style="font-weight:600">{{ $data->name }}</td>
                 <td>
                   <div class="actions">
-                    <a class="action-btn edit-btn" href="{{ route('user.edit', $data->id) }}"><i
+                    <a class="action-btn edit-btn" href="{{ route('customer.edit', $data->id) }}"><i
                         class="fas fa-edit"></i></a>
-                    <a class="action-btn delete-btn" href="{{ route('user.delete', $data->id) }}"
+                    <a class="action-btn delete-btn" href="{{ route('customer.delete', $data->id) }}"
                       onclick="return confirm('Delete this user?')"><i class="fas fa-trash-alt"></i></a>
                   </div>
                 </td>
